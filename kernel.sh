@@ -178,6 +178,7 @@ tg_error() {
 build_kernel() {
 Start=$(date +"%s")
 
+    make "$DEFCONFIG_COMMON $CONFIG $DEFCONFIG_DEVICE $KSU_CONFIG" O=out
 	make -j$(nproc --all) O=out \
                               ARCH=arm64 \
                               LLVM=1 \
