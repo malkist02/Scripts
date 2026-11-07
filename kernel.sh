@@ -45,18 +45,24 @@ rm -rf error.log
 # USEER = build user
 #
 
+# KernelSU
+
+curl -LSs "https://raw.githubusercontent.com/backslashxx/KernelSU/master/kernel/setup.sh" | bash -s master
+
 # Devices
-if [ "$DEVICE_TYPE" == courbet  ];
+if [ "$DEVICE_TYPE" == ginkgo  ];
 then
 DEVICE="XIAOMI 11 LITE (OSS)"
-KERNEL_NAME="SLEEPY_KERNEL-OSS"
-CODENAME="COURBET"
+KERNEL_NAME="TELETUBIES"
+CODENAME="GINKGO"
 
-DEFCONFIG_COMMON="vendor/sdmsteppe-perf_defconfig"
-DEFCONFIG_DEVICE="vendor/courbet.config"
+DEFCONFIG_COMMON="vendor/trinket-perf_defconfig"
+CONFIG="vendor/xiaomi-trinket.config"
+DEFCONFIG_DEVICE="vendor/ginkgo.config"
+KSU_CONFIG="vendor/ksu.config"
 
-AnyKernel="https://github.com/itsshashanksp/AnyKernel3.git"
-AnyKernelbranch="courbet"
+AnyKernel="https://github.com/malkist01/AnyKernel3.git"
+AnyKernelbranch="ginkgo"
 fi
 
 if [ "$DEVICE_TYPE" == davinci  ];
@@ -204,7 +210,9 @@ mkdir -p out
 
 make clean && make mrproper
 make "$DEFCONFIG_COMMON" O=out
+make "$CONFIG" O=out
 make "$DEFCONFIG_DEVICE" O=out
+make "$KSU_CONFIG" O=out
 
 echo -e "$yellow << compiling the kernel >> \n $white"
 tg_post_msg "Successful triggered Compiling kernel for $DEVICE $CODENAME" "$CHATID"
